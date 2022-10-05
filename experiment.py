@@ -229,8 +229,7 @@ if __name__ == "__main__":
     y1 = np.array(binary_search_time_1)
     y2 = np.array(trinary_search_time_1)
 
-        plt.plot(x, y1, x, y2)
-    plt.legend()
+    plt.plot(x, y1, x, y2)
     plt.xlabel("Sample (n)")
     plt.ylabel("Time taken")
     plt.title("Time vs n")
@@ -240,7 +239,6 @@ if __name__ == "__main__":
     y4 = np.array(trinary_search_time_2)
 
     plt.plot(x, y3, x, y4,)
-    plt.legend()
     plt.xlabel("Sample (n)")
     plt.ylabel("Time taken")
     plt.title("Time vs n")
