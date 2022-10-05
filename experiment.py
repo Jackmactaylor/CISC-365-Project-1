@@ -229,7 +229,7 @@ if __name__ == "__main__":
     y1 = np.array(binary_search_time_1)
     y2 = np.array(trinary_search_time_1)
 
-    plt.plot(x, y1, x, y2)
+    plt.plot(x, y1, 'o:r', x, y2, 'o:b')
     plt.xlabel("Sample (n)")
     plt.ylabel("Time taken")
     plt.title("Time vs n")
@@ -238,8 +238,11 @@ if __name__ == "__main__":
     y3 = np.array(binary_search_time_2)
     y4 = np.array(trinary_search_time_2)
 
-    plt.plot(x, y3, x, y4,)
+    plt.plot(x, y3, 'o:r', x, y4, 'o:b')
     plt.xlabel("Sample (n)")
     plt.ylabel("Time taken")
     plt.title("Time vs n")
     plt.show()
+
+    ''' “I confirm that this submission is our own work and is consistent with the Queen's regulations on Academic 
+    Integrity.” '''
