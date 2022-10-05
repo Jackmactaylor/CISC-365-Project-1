@@ -33,7 +33,6 @@ def bin_search(A,first,last,target):
         else:
             return bin_search(A,mid + 1,last,target)
 
-# -> can be compared to the trinary search in the algorithm referencd folder - to be ensured
 def trin_search(A,first,last,target):
     """
     This method search the target in the array A using the trinary search method, iterate for every 1/3 of the array
@@ -64,7 +63,6 @@ def trin_search(A,first,last,target):
         else:
             return trin_search(A,two_third + 1,last,target)
 
-
 def quick_sort(array):
     """
     This method sort the array using the quick sort algorithm
@@ -87,31 +85,62 @@ def quick_sort(array):
     else:
         return array
 
-
 def generate_sortedarray(n):
     """
-    This method generate the random number and sort the array
+    This method generate the random number and sort the array, only even number is included
 
     Parameters: 
         n - the number of term to be generated
 
         Returns - arary in alphabetical ascending order
     """
-    array = [ random.randint(0,1e10) for i in range(n) ] 
-    array = sorted(array)   # -> to be changed to quick_sort()
-    return array
+    randomNumber = []
+    numberOfTerms = 0
+    while numberOfTerms != n:
+        value = random.randint(0,1e10)
+        if ( value % 2 == 0 ):
+            randomNumber.append(value)
+            numberOfTerms += 1
+    return quick_sort(randomNumber)
 
-# -> Genera 10 * n length with repeated 10 times the search term?
-def generate_search(n):
+def generate_search( array ):
     """
-    To be verified
-    """
-    l = [i for i in range(2 * n)]
-    search_array,numbers = [i for i in l if i % 2 == 0],[i for i in l if i % 2 == 1]
-    return search_array,numbers
+    Use the generated array, product 10 times the same value and shuffle them
+    This array will act as an term to be searched array
 
-# Experiment 1
-def measure(f1,f2):
+    Parameters: 
+    array - the generated alphabetical array
+
+    Returns - a random search term list based on array
+    """
+    searchArray = []
+    for i in range(len(array)):
+        for j in range(10):
+            searchArray.append(array[i])
+    random.shuffle(searchArray)
+    return searchArray
+
+def generate_search_not_in_array( array ):
+    """
+    Use the generated array, product 10 times the same value and shuffle them
+    This array will act as an term to be searched array.
+
+    This returns an array of search term that are not in array
+
+    Parameters: 
+    array - the generated alphabetical array
+
+    Returns - a random search term list based on array
+    """
+    searchArray = []
+    for i in range(len(array)):
+        for j in range(10):
+            # make the seach value odd number
+            searchArray.append(array[i]+1)
+    random.shuffle(searchArray)
+    return searchArray
+
+def measure():
     """
     This method measure the total time of searching elements in the search array
     to the generated of n term array.
@@ -119,78 +148,89 @@ def measure(f1,f2):
     It does two measurements, one using binary search, the other using trinary search
 
     Parameters: 
-        -> to be filled
+        return timesTrinary - array with time measurement with trinary search
+        return timesBinary - array with time measurement with binary search
     """
-    # any reason to be under func()? -> to be optimized
-    def func():
-        N = [1000,2000,4000,8000,16000]
-        times1 = []
-        times2 = []
-        for n in N:
-            array = generate_sortedarray(n)
-            # measure trinary search
-            start = time.process_time()
-            for i in range(n):
-                # -> j argument and the search term
-                for j in range(10):
-                    assert f1(array,0,len(array) - 1,array[i]) != -1
-            end   = time.process_time()
-            times1.append(end - start)
-            ## measure binary search 
-            start = time.process_time()
-            for i in range(n):
-                for j in range(10):
-                    assert f2(array,0,len(array) - 1,array[i]) != -1
-            end   = time.process_time()
-            times2.append(end - start)
-        return times1,times2
-    return func
 
-# Experiment 2
-def measure2(f1,f2):
+    N = [1000,2000,4000,8000,16000]
+    timesTrinary = []
+    timesBinary = []
+
+    # loop through each array size
+    for n in N:
+
+        array = generate_sortedarray(n)
+        searchTerm = generate_search(array)
+
+        ## measure trinary search
+        start = time.process_time()
+        for i in range(len(searchTerm)):
+            assert trin_search(array,0,len(array) - 1,searchTerm[i]) != -1
+        end = time.process_time()
+        timesTrinary.append(end - start)
+
+        ## measure binary search 
+        start = time.process_time()
+        for i in range(len(searchTerm)):
+            assert bin_search(array,0,len(array) - 1,searchTerm[i]) != -1
+        end = time.process_time()
+        timesBinary.append(end - start)
+
+    return timesTrinary,timesBinary
+
+
+def measure2():
     """
     This method measure the total time of searching elements that is not in the array
-    the time. This should be using the time complexity in full.
+    This search represent the worst case scenario.
 
     It does two measurements, one using binary search, the other using trinary search
 
     Parameters: 
-        -> to be filled
+        return timesTrinary - array with time measurement with trinary search
+        return timesBinary - array with time measurement with binary search
     """
-    def func():
-        N = [1000,2000,4000,8000,16000]
-        times1 = []
-        times2 = []
-        for n in N:
-            searched,array = generate_search(n)
-            start = time.process_time()
-            for i in range(n):
-                for j in range(10):
-                    assert f1(array,0,len(array) - 1,searched[i]) == -1
-            end   = time.process_time()
-            times1.append(end - start)
-            ## measure binary search 
-            start = time.process_time()
-            for i in range(n):
-                for j in range(10):
-                    assert f2(array,0,len(array) - 1,searched[i]) == -1
-            end   = time.process_time()
-            times2.append(end - start)
-        return times1,times2
-    return func
+    
+    N = [1000,2000,4000,8000,16000]
+    timesTrinary = []
+    timesBinary = []
+
+    # loop through each array size
+    for n in N:
+
+        array = generate_sortedarray(n)
+        searchTerm = generate_search_not_in_array(array)
+
+        ## measure trinary search
+        start = time.process_time()
+        for i in range(len(searchTerm)):
+            result = trin_search(array,0,len(array) - 1,searchTerm[i]) != -1
+        end = time.process_time()
+        timesTrinary.append(end - start)
+
+        ## measure binary search 
+        start = time.process_time()
+        for i in range(len(searchTerm)):
+            result = bin_search(array,0,len(array) - 1,searchTerm[i]) != -1
+        end = time.process_time()
+        timesBinary.append(end - start)
+
+    return timesTrinary,timesBinary
 
 
 if __name__ == "__main__":
 
     N = [1000,2000,4000,8000,16000]
 
-    trin_time,bin_time= measure(trin_search,bin_search)()
+    ## experiment 1
+    trin_time,bin_time = measure()
     print("experiment 1")
     print("N",N)
     print("trin_time",trin_time)
     print("bin_time",bin_time)
 
-    trin_time,bin_time= measure2(trin_search,bin_search)()
+    ## experiment 2
+    trin_time,bin_time = measure2()
     print("experiment 2")
     print("N",N)
     print("trin_time",trin_time)
