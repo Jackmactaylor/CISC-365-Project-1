@@ -8,7 +8,6 @@ measurement to experiment #1 and experiment #2
 
 import time
 import random
-random.seed(120)
 
 def bin_search(A,first,last,target):
     """
