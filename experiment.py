@@ -1,6 +1,8 @@
 """
 Group Project 1 Team 11
-Name: Ryn Ou, Decheng Zhu, Jack Taylor, Ruoshi Xia
+Name: Ryn Ou - 20183436, Decheng Zhu - STUDENT NUMBER, Jack Taylor - 20100745, Ruoshi Xia - 20167297
+
+“I confirm that this submission is our own work and is consistent with the Queen's regulations on Academic Integrity.”
 
 This file contains the sorting algorithm, generated array and 
 measurement to experiment #1 and experiment #2
